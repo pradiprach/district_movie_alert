@@ -34,16 +34,20 @@ script = soup.find("script", id="__NEXT_DATA__")
 json_data = json.loads(script.text)
 data = json_data["props"]["pageProps"]["data"]["serverState"]["movieSessions"]
 
-
+is_found = False
 for session in data:
     shows = data[session]["arrangedSessions"]
     for show in shows:
         show_data = show["data"]
         if cinema_name in show_data["name"]:
-            print("Tickets Available!")
             send_email()
-            exit(1)
-print("Tickets not available")
+            is_found = True
+            break
+if is_found:
+    print("Tickets Available!")
+else:
+    print("Tickets not available")
+
 
 
 
