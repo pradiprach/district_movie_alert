@@ -8,7 +8,8 @@ import requests
 from bs4 import BeautifulSoup
 
 date = "2025-09-13"
-cinema_name = "INOX Sattva"
+# cinema_name = "INOX Sattva"
+cinema_name = "Rajadhani"
 
 def send_email():
     my_email = os.environ.get("SMTP_EMAIL")
@@ -43,6 +44,7 @@ for session in data:
             send_email()
             exit(1)
 print("Tickets not available")
+
 
 
 
