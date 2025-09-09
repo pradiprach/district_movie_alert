@@ -11,7 +11,7 @@ date = "2025-09-13"
 cinema_name = "INOX Sattva"
 
 def send_email():
-    my_email = os.environ.get("FROM_EMAIL")
+    my_email = os.environ.get("SMTP_EMAIL")
     to_email = os.environ.get("TO_EMAIL")
     password = os.environ.get("SMTP_PASSWORD")
 
@@ -43,5 +43,6 @@ for session in data:
             send_email()
             exit(1)
 print("Tickets not available")
+
 
 
