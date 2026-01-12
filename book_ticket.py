@@ -27,7 +27,7 @@ def send_email():
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=to_email, msg=message.as_string())
 
-url = "https://www.district.in/movies/mirai-movie-tickets-in-hyderabad-MV172573?frmtid=ll1urkz6or&fromdate=2025-09-13"
+url = "https://www.district.in/movies/anaganaga-oka-raju-movie-tickets-in-hyderabad-MV151347?frmtid=sXBaVe4G5&fromdate=2026-01-17"
 content = requests.get(url=url).text
 soup = BeautifulSoup(content, 'html.parser')
 script = soup.find("script", id="__NEXT_DATA__")
@@ -47,6 +47,7 @@ if is_found:
     print("Tickets Available!")
 else:
     print("Tickets not available")
+
 
 
 
