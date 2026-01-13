@@ -7,7 +7,7 @@ from smtplib import SMTP
 import requests
 from bs4 import BeautifulSoup
 
-date = "2025-09-13"
+date = "2025-09-17"
 cinema_name = "INOX Sattva"
 # cinema_name = "Rajadhani"
 
@@ -47,6 +47,7 @@ if is_found:
     print("Tickets Available!")
 else:
     print("Tickets not available")
+
 
 
 
