@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 import requests
 from bs4 import BeautifulSoup
 
-date = "2026-01-17"
+date = "2026-02-18"
 cinema_name = "INOX Sattva"
 # cinema_name = "Rajadhani"
 
@@ -29,7 +29,29 @@ def send_email():
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=to_email, msg=message.as_string())
 
-url = f"https://www.district.in/movies/anaganaga-oka-raju-movie-tickets-in-hyderabad-MV151347?frmtid=sXBaVe4G5&fromdate={date}"
+def send_telegram_msg():
+    # Your credentials
+    token = os.environ.get("TELEGRAM_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")  # Use the negative ID for groups
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    message = f"Movie Tickets - Available - {cinema_name}"
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+
+    try:
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            print("Message sent to family!")
+        else:
+            print(f"Failed to send: {response.text}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+url = f"https://www.district.in/movies/couple-friendly-movie-tickets-in-hyderabad-MV204055?frmtid=cuoat8whir&fromdate=2026-02-18"
 content = requests.get(url=url).text
 soup = BeautifulSoup(content, 'html.parser')
 script = soup.find("script", id="__NEXT_DATA__")
@@ -52,13 +74,14 @@ else:
         for show in shows:
             show_data = show["data"]
             if cinema_name in show_data["name"]:
-                send_email()
+                send_telegram_msg()
                 is_found = True
                 break
     if is_found:
         print("Tickets Available!")
     else:
         print("Tickets not available")
+
 
 
 
