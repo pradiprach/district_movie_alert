@@ -51,7 +51,7 @@ def send_telegram_msg():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-url = f"https://www.district.in/movies/couple-friendly-movie-tickets-in-hyderabad-MV204055?frmtid=cuoat8whir&fromdate=2026-02-19"
+url = f"https://www.district.in/movies/couple-friendly-movie-tickets-in-hyderabad-MV204055?frmtid=cuoat8whir&fromdate={date}"
 content = requests.get(url=url).text
 soup = BeautifulSoup(content, 'html.parser')
 script = soup.find("script", id="__NEXT_DATA__")
@@ -81,6 +81,7 @@ else:
         print("Tickets Available!")
     else:
         print("Tickets not available")
+
 
 
 
