@@ -14,6 +14,7 @@ cinema_names = [
     "INOX Sattva",
     "INOX Odeon",
     "UK Cineplex"
+]
 # cinema_name = "Rajadhani"
 
 def send_email(cinema_name):
@@ -85,6 +86,7 @@ else:
         print("Tickets Available!")
     else:
         print("Tickets not available")
+
 
 
 
