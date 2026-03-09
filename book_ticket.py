@@ -9,11 +9,14 @@ from zoneinfo import ZoneInfo
 import requests
 from bs4 import BeautifulSoup
 
-date = "2026-02-19"
-cinema_name = "INOX Sattva"
+date = "2026-03-21"
+cinema_names = [
+    "INOX Sattva",
+    "INOX Odeon",
+    "UK Cineplex"
 # cinema_name = "Rajadhani"
 
-def send_email():
+def send_email(cinema_name):
     my_email = os.environ.get("SMTP_EMAIL")
     to_email = os.environ.get("TO_EMAIL")
     password = os.environ.get("SMTP_PASSWORD")
@@ -51,7 +54,7 @@ def send_telegram_msg():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-url = f"https://www.district.in/movies/couple-friendly-movie-tickets-in-hyderabad-MV204055?frmtid=cuoat8whir&fromdate={date}"
+url = f"https://www.district.in/movies/dhurandhar-the-revenge-movie-tickets-in-hyderabad-MV211577?frmtid=v833gyzof7&fromdate={date}"
 content = requests.get(url=url).text
 soup = BeautifulSoup(content, 'html.parser')
 script = soup.find("script", id="__NEXT_DATA__")
@@ -73,14 +76,16 @@ else:
         shows = data[session]["arrangedSessions"]
         for show in shows:
             show_data = show["data"]
-            if cinema_name in show_data["name"]:
-                send_telegram_msg()
-                is_found = True
-                break
+            for cinema in cinema_names:
+                if cinema in show_data["name"]:
+                    send_telegram_msg(cinema)
+                    is_found = True
+                    break
     if is_found:
         print("Tickets Available!")
     else:
         print("Tickets not available")
+
 
 
 
