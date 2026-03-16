@@ -74,7 +74,7 @@ def check_movie():
     logger.info("Started Running scheduled task")
     for movie in MOVIES_LIST:
         try:
-            content = requests.get(url=movie["url"]).text
+            content = requests.get(url=f"{movie["url"]}{movie["date"]}").text
             soup = BeautifulSoup(content, 'html.parser')
             script = soup.find("script", id="__NEXT_DATA__")
             json_data = json.loads(script.text)
