@@ -95,7 +95,7 @@ def check_movie():
                     shows = data[session]["arrangedSessions"]
                     for show in shows:
                         show_data = show["data"]
-                        for cinema in movie["cinema_names"].split(","):
+                        for cinema in movie["cinemas"].split(","):
                             if cinema.strip() in show_data["name"]:
                                 send_telegram_msg(movie["name"], cinema)
                                 break
