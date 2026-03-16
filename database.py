@@ -31,11 +31,12 @@ def get_movies_list():
         logger.error(f"Error fetching stocks: {e}")
         raise
 
-def add_movie(name: str, cinemas: str, date: str):
+def add_movie(name: str, url: str, cinemas: str, date: str):
     """Add a new movie to the database."""
     try:
         response = supabase.table("movies").insert({
             "name": name,
+            "url": url,
             "cinemas": cinemas,
             "date": date
         }).execute()
@@ -44,10 +45,11 @@ def add_movie(name: str, cinemas: str, date: str):
         logger.error(f"Error adding stock: {e}")
         raise
 
-def update_movie_details(id: int, cinemas: str, date: str):
+def update_movie_details(id: int, name: str, cinemas: str, date: str):
     """Update movie details."""
     try:
         supabase.table("movies").update({
+            "name": name,
             "cinemas": cinemas,
             "date": date
         }).eq("id", id).execute()
