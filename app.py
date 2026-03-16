@@ -173,6 +173,16 @@ def remove_stock(id):
         logger.error(f"Delete stock error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
 
+@app.route('/movies', methods=['GET'])
+def get_all_stocks():
+    try:
+        if request.args.get("refresh"):
+            load_movies_list()
+        return jsonify(MOVIES_LIST), 200
+    except Exception as e:
+        logger.error(f"Get stocks error: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
 init_db()
 load_movies_list()
 create_scheduler()
