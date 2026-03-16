@@ -3,6 +3,7 @@ import logging
 import requests
 import os
 import pytz
+import time
 from bs4 import BeautifulSoup
 from flask import Flask, jsonify, request
 from requests.adapters import HTTPAdapter
@@ -73,6 +74,7 @@ def send_telegram_msg(movie_name, cinema_name):
 def check_movie():
     logger.info("Started Running scheduled task")
     for movie in MOVIES_LIST:
+        print(f"Started for movie: {movie['name']}")
         try:
             url = f"{movie['url']}{movie['date']}"
             content = requests.get(url=url).text
@@ -98,7 +100,8 @@ def check_movie():
                         for cinema in movie["cinemas"].split(","):
                             if cinema.strip() in show_data["name"]:
                                 send_telegram_msg(movie["name"], cinema)
-                                break
+                                time.sleep(2)
+
         except Exception as e:
             logger.error(f"Error processing {movie['name']}: {e}")
             continue
