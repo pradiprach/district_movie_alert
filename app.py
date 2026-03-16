@@ -131,12 +131,13 @@ def add_stock_entry():
     name = data.get('name')
     cinemas = data.get('cinemas')
     date = data.get('date')
+    url = data.get('url')
 
-    if not name or cinemas is None or date is None:
+    if not url or not name or cinemas is None or date is None:
         return jsonify({'error': 'Missing required fields'}), 400
 
     try:
-        add_movie(name, cinemas, date)
+        add_movie(name, url, cinemas, date)
         load_movies_list()
         return jsonify({'message': 'Stock added successfully'}), 201
     except Exception as e:
@@ -145,27 +146,28 @@ def add_stock_entry():
 
 
 @app.route('/movie/<int:id>', methods=['PUT'])
-def update_stock_entry_values(id):
+def update_movie_entry_values(id):
     data = request.get_json()
     if not data:
         return jsonify({'error': 'Invalid request'}), 400
 
+    name = data.get('name')
     cinemas = data.get('cinemas')
     date = data.get('date')
 
-    if cinemas is None or date is None:
+    if name is None or cinemas is None or date is None:
         return jsonify({'error': 'Missing required fields'}), 400
 
     try:
-        update_movie_details(id, cinemas, date)
+        update_movie_details(id, name, cinemas, date)
         load_movies_list()
         return jsonify({'message': 'Movie updated successfully'}), 200
     except Exception as e:
         logger.error(f"Update stock error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
 
-@app.route('/stock/<int:id>', methods=['DELETE'])
-def remove_stock(id):
+@app.route('/movie/<int:id>', methods=['DELETE'])
+def remove_movie(id):
     try:
         delete_movie(id)
         return jsonify({'message': 'Movie deleted successfully'}), 200
@@ -174,7 +176,7 @@ def remove_stock(id):
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/movies', methods=['GET'])
-def get_all_stocks():
+def get_all_movies():
     try:
         if request.args.get("refresh"):
             load_movies_list()
