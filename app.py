@@ -123,7 +123,7 @@ def health():
 
 
 @app.route('/movie', methods=['POST'])
-def add_stock_entry():
+def add_movie_entry():
     data = request.get_json()
     if not data:
         return jsonify({'error': 'Invalid request'}), 400
