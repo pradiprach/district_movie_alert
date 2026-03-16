@@ -74,7 +74,8 @@ def check_movie():
     logger.info("Started Running scheduled task")
     for movie in MOVIES_LIST:
         try:
-            content = requests.get(url=f"{movie["url"]}{movie["date"]}").text
+            url = f"{movie['url']}{movie['date']}"
+            content = requests.get(url=url).text
             soup = BeautifulSoup(content, 'html.parser')
             script = soup.find("script", id="__NEXT_DATA__")
             json_data = json.loads(script.text)
@@ -95,7 +96,7 @@ def check_movie():
                     for show in shows:
                         show_data = show["data"]
                         for cinema in movie["cinema_names"].split(","):
-                            if cinema.trim() in show_data["name"]:
+                            if cinema.strip() in show_data["name"]:
                                 send_telegram_msg(movie["name"], cinema)
                                 break
         except Exception as e:
